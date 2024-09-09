@@ -80,16 +80,22 @@ class Profile extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                 child: Column(
                   children: [
-                    Text(
-                      "Name:  ${data['username']}",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Name:  ${data['username']}",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
                     ),
                     SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      "Email:  ${data['email']}",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Email:  ${data['email']}",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
                     ),
                     SizedBox(
                       height: 10,

@@ -46,7 +46,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    Chatmicorsend().dispose();
+    context.read<Chatmicorsend>().audioPlayer.dispose();
     messageController.clear();
   }
 
@@ -200,8 +200,14 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       ),
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage("assets/background.jpg"))),
+            image: DecorationImage(
+                image: AssetImage(
+                  "assets/background.jpg",
+                ),
+                fit: BoxFit.cover)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -211,7 +217,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     .collection("chat")
                     .doc(uidChat)
                     .collection('messages')
-                    .orderBy('time',descending: true)
+                    .orderBy('time', descending: true)
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -364,7 +370,6 @@ class _ChatScreenState extends State<ChatScreen> {
                           onPressed: () async {
                             context.read<Chatmicorsend>().checTapMic(false);
                             await value.stop_Record();
-
                             await Methedfirebaseauth.chatWhitUser(
                                 uidmessage: const Uuid().v1(),
                                 uidChat: uidChat,
@@ -434,10 +439,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   },
                   child: Column(
                     children: [
-                      Icon(
-                        Icons.camera_alt,
-                        size: 28,
-                      ),
+                      Icon(Icons.camera_alt, size: 28, color: Colors.black),
                       SizedBox(
                         width: 5,
                       ),
@@ -461,10 +463,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   width: 80,
                   child: Column(
                     children: [
-                      Icon(
-                        Icons.photo,
-                        size: 28,
-                      ),
+                      Icon(Icons.photo, size: 28, color: Colors.black),
                       SizedBox(
                         height: 5,
                       ),

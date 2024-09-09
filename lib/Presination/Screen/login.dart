@@ -86,10 +86,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   WidgetsBinding.instance.addPostFrameCallback((_) =>
                       WidgetsBinding
                           .instance
-                          .addPostFrameCallback((_) => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Chatapp()))));
+                          .addPostFrameCallback((_) =>
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Chatapp()))));
                 } else if (state is StateLoginError) {
                   WidgetsBinding.instance.addPostFrameCallback(
                       (_) => showSnackBar(context, "Login Error"));

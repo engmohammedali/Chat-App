@@ -292,7 +292,7 @@ class CustomSearchDelegate extends SearchDelegate {
                         document.data()! as Map<String, dynamic>;
                     return Container(
                       padding: EdgeInsets.symmetric(vertical: 9, horizontal: 5),
-                      child: InkWell(
+                      child: GestureDetector(
                         onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(

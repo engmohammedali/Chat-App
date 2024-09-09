@@ -18,7 +18,7 @@ class UserAll extends StatelessWidget {
             color: Colors.grey[850],
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-        height: 350,
+        height: 450,
         padding: EdgeInsetsDirectional.symmetric(vertical: 10, horizontal: 5),
         child: FutureBuilder(
             future: FirebaseFirestore.instance.collection('users').get(),

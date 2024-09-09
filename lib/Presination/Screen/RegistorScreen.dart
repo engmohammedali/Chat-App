@@ -75,10 +75,7 @@ class _RegistorscreenState extends State<Registorscreen> {
                 },
                 child: Row(
                   children: [
-                    Icon(
-                      Icons.camera_alt,
-                      size: 30,
-                    ),
+                    Icon(Icons.camera_alt, size: 30, color: Colors.black),
                     SizedBox(
                       width: 11,
                     ),
@@ -99,10 +96,7 @@ class _RegistorscreenState extends State<Registorscreen> {
                 },
                 child: Row(
                   children: [
-                    Icon(
-                      Icons.photo,
-                      size: 30,
-                    ),
+                    Icon(Icons.photo, size: 30, color: Colors.black),
                     SizedBox(
                       width: 11,
                     ),
@@ -137,7 +131,6 @@ class _RegistorscreenState extends State<Registorscreen> {
     return Scaffold(
       appBar: widget.isUpdate
           ? AppBar(
-            
               iconTheme: IconThemeData(color: Colors.white),
               centerTitle: true,
               backgroundColor: BTNgreen,

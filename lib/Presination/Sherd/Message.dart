@@ -13,7 +13,8 @@ class MessageBubble extends StatelessWidget {
   final bool isImage; // متغير جديد لتحديد إذا كانت الرسالة تحتوي على صورة
   final DateTime time;
   final bool isVoice;
-  MessageBubble({
+  const MessageBubble({
+    super.key,
     required this.message,
     required this.isVoice,
     required this.isRead,
@@ -26,17 +27,16 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
-      child: isVoice
-          ? Consumer<Chatmicorsend>(
+    return isVoice
+        ? Align(
+            alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+            child: Consumer<Chatmicorsend>(
               builder: (BuildContext context, value, Widget? child) {
-              return Container(
-                margin: EdgeInsets.symmetric(vertical: 4),
-                child: BubbleNormalAudio(
-                  color: Colors.blueAccent,
-                  // key: data['uidmessage'],
-
+                return BubbleNormalAudio(
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                  color: isMe ? Color(0xFF003366) : Color(0xFF000000),
                   duration: value.duration.inSeconds.toDouble(),
                   position: value.position.inSeconds.toDouble(),
                   isPlaying: value.isPlaying,
@@ -50,20 +50,22 @@ class MessageBubble extends StatelessWidget {
                       await value.stop_play();
                     }
                   },
-                  sent: true,
+                  sent: isMe,
                   seen: isRead,
-                ),
-              );
-            })
-          : Container(
+                );
+              },
+            ),
+          )
+        : Align(
+            alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+            child: Container(
               margin: EdgeInsets.symmetric(
                   vertical: 4, horizontal: 12), // المسافة حول الفقاعة
               padding: EdgeInsets.symmetric(
                   vertical: 4, horizontal: 6), // مسافة داخل الفقاعة
               decoration: BoxDecoration(
-                color: isMe
-                    ? Colors.blueAccent
-                    : const Color(0xFF121B22), // لون الفقاعة
+                color:
+                    isMe ? Color(0xFF003366) : Color(0xFF333333 ), // لون الفقاعة
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(15),
                     topRight: Radius.circular(15),
@@ -84,7 +86,7 @@ class MessageBubble extends StatelessWidget {
                               return Container(
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: Colors.black,
+                                  color: Color(0xFF000000),
                                 ),
                                 padding: EdgeInsets.all(20),
                                 width: double.infinity,
@@ -95,87 +97,112 @@ class MessageBubble extends StatelessWidget {
                                   },
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
-                                    child: Image.network(
+                                    child: CachedNetworkImage(
                                       width: double.infinity,
                                       height:
                                           MediaQuery.of(context).size.height *
                                               0.6,
-                                      message, // رابط الصورة
                                       fit: BoxFit.cover,
+                                      imageUrl: message,
+                                      placeholder: (context, url) =>
+                                          Shimmer.fromColors(
+                                        baseColor: Colors.grey[850]!,
+                                        highlightColor: Colors.grey[800]!,
+                                        child: Container(
+                                          width: double.infinity,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.6,
+                                          decoration: BoxDecoration(
+                                            color: Color(0xFF333333),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
                                     ),
                                   ),
+
+                                  //  ClipRRect(
+                                  //   borderRadius: BorderRadius.circular(10),
+                                  //   child: Image.network(
+                                  //     width: double.infinity,
+                                  //     height:
+                                  //         MediaQuery.of(context).size.height *
+                                  //             0.6,
+                                  //     message, // رابط الصورة
+                                  //     fit: BoxFit.cover,
+                                  //   ),
+                                  // ),
                                 ),
                               );
                             },
                             isScrollControlled: true);
                       },
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: CachedNetworkImage(
-                                width: 200,
-                                height: 200,
-                                fit: BoxFit.cover,
-                                imageUrl: message,
-                                placeholder: (context, url) =>
-                                    Shimmer.fromColors(
-                                  baseColor: Colors.grey[850]!,
-                                  highlightColor: Colors.grey[800]!,
-                                  child: Container(
-                                    width: 200,
-                                    height: 200,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: CachedNetworkImage(
+                              width: 200,
+                              height: 200,
+                              fit: BoxFit.cover,
+                              imageUrl: message,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: Colors.grey[850]!,
+                                highlightColor: Colors.grey[800]!,
+                                child: Container(
+                                  width: 200,
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
                               ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
                             ),
-                            Positioned(
-                                right: -3,
-                                bottom: -3,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(3.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        DateFormat("hh:mm a")
-                                            .format(time)
-                                            .toString(), // الوقت ثابت هنا، يمكنك تخصيصه
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                          color: Colors.white70,
-                                        ),
+                          ),
+                          Positioned(
+                              right: -3,
+                              bottom: -3,
+                              child: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      DateFormat("hh:mm a")
+                                          .format(time)
+                                          .toString(), // الوقت ثابت هنا، يمكنك تخصيصه
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        color: Colors.white70,
                                       ),
-                                      SizedBox(
-                                          width:
-                                              1), // المسافة بين الوقت والأيقونة
-                                      Icon(
-                                        isMe
-                                            ? isRead
-                                                ? Icons.done_all
-                                                : Icons.check
-                                            : null,
-                                        size: 16,
-                                        color: isRead
-                                            ? Colors.blue
-                                            : Colors.white70,
-                                      ),
-                                    ],
-                                  ),
-                                ))
-                          ],
-                        ),
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            1), // المسافة بين الوقت والأيقونة
+                                    Icon(
+                                      isMe
+                                          ? isRead
+                                              ? Icons.done_all
+                                              : Icons.check
+                                          : null,
+                                      size: 16,
+                                      color: isRead
+                                          ? Colors.blue
+                                          : Colors.white70,
+                                    ),
+                                  ],
+                                ),
+                              ))
+                        ],
                       ),
                     )
                   else
@@ -231,6 +258,6 @@ class MessageBubble extends StatelessWidget {
                 ],
               ),
             ),
-    );
+          );
   }
 }

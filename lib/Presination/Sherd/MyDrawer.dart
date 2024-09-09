@@ -38,8 +38,7 @@ class _MydrawerState extends State<Mydrawer> {
     return Drawer(
       backgroundColor: Colors.black,
       child: SizedBox(
-           width: 300,
-           
+        width: 300,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -116,10 +115,11 @@ class _MydrawerState extends State<Mydrawer> {
                   ),
                   onTap: () async {
                     await FirebaseAuth.instance.signOut();
-        
+
                     Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(builder: (context) => Welcomescreen()),
+                        MaterialPageRoute(
+                            builder: (context) => Welcomescreen()),
                         (Route<dynamic> route) => false);
                     // Navigator.push(context,
                     //     MaterialPageRoute(builder: (context) => Welcomescreen()));

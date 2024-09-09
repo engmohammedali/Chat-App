@@ -34,12 +34,13 @@ class Chatmicorsend extends ChangeNotifier {
     }
   }
 
-  late final AudioPlayer audioPlayer;
+  late AudioPlayer audioPlayer;
   Duration duration = const Duration();
   Duration position = const Duration();
   bool isPlaying = false;
   bool isLoading = false;
   bool isPause = false;
+  bool init = false;
   final record = AudioRecorder();
   String path = "";
   String url = '';
@@ -83,5 +84,9 @@ class Chatmicorsend extends ChangeNotifier {
     url = download_url;
     notifyListeners();
     print('uploded');
+  }
+
+  initializePlayer({required AudioPlayer audioPlayer}) {
+    if (audioPlayer == null) audioPlayer = audioPlayer;
   }
 }
